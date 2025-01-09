@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Version } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -28,6 +28,7 @@ export class UsersController {
 
   @ApiCustomResponses({ summary: 'Crear un nuevo usuario', successExample: userResponses.create })
   @ApiBody({ schema: { ...userSchema, required: ['username', 'password'] } })
+  @Version('1')
   @Post()
   async createUser(@Body() newUser: CreateUserDto) {
     const createdUser = await this.usersService.createUser(newUser);

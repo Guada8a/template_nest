@@ -1,15 +1,21 @@
-import { Controller, Get, Param } from '@nestjs/common';
-import { ParseIntPipe } from '@nestjs/common/pipes/parse-int.pipe';
+import { Controller, Get, Version } from '@nestjs/common';
 import { AppService } from './app.service';
 import { ApiTags } from '@nestjs/swagger';
 
-@ApiTags('Health')
-@Controller('v1')
+@ApiTags('health')
+@Controller('health')
 export class AppController {
   constructor(private readonly appService: AppService) { }
 
-  @Get('health')
+  @Version('1')
+  @Get()
   async checkDatabaseConnection() {
+    return await this.appService.checkDatabaseConnection();
+  }
+
+  @Version('2')
+  @Get()
+  async checkDatabaseConnectionV2() {
     return await this.appService.checkDatabaseConnection();
   }
 }
