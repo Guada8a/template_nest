@@ -16,6 +16,6 @@ export class AppController {
   @Version('2')
   @Get()
   async checkDatabaseConnectionV2() {
-    return await this.appService.checkDatabaseConnection();
+    return await this.appService.checkDatabaseConnectionV2();
   }
 }

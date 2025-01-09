@@ -44,4 +44,21 @@ export class AppService {
       };
     }
   }
+
+  async checkDatabaseConnectionV2() {
+    try {
+      await this.dataSource.query('SELECT 1');
+      return {
+        status: 'success',
+        message: 'Conexión a la base de datos establecida correctamente',
+        isConnected: true
+      };
+    } catch (error) {
+      return {
+        status: 'error',
+        message: `Error al conectar con la base de datos: ${error.message}`,
+        isConnected: false
+      };
+    }
+  }
 }
