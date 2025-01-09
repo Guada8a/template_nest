@@ -1,0 +1,32 @@
+{
+  "info": {
+    "title": "Importadores",
+    "description": "Administra los datos de los importadores"
+  },
+  "schema": [
+    {
+      "title": "UUID",
+      "dataIndex": "uuid",
+      "type": "number",
+      "isKey": true,
+      "validations": {
+        "required": true
+      }
+    },
+    {
+      "title": "Nombre",
+      "dataIndex": "name",
+      "type": "string"
+    },
+    {
+      "title": "RFC",
+      "dataIndex": "rfc",
+      "type": "string"
+    },
+    {
+      "title": "Correo electrónico",
+      "dataIndex": "email",
+      "type": "string"
+    }
+  ]
+}

@@ -1,7 +1,7 @@
 import { Controller, Get, Post, Body, Param, ParseIntPipe } from '@nestjs/common';
 import { PostsService } from './posts.service';
 import { CreatePostDto } from './dto/create-post.dto';
-import { postSchema } from 'src/schemas/post.schema';
+import { postSchema } from 'src/posts/schemas/post.schema';
 import { ApiBody } from '@nestjs/swagger';
 import { ApiCustomResponses } from 'src/decorators/customResponses.decorator';
 import { ResponseUtil } from 'src/utils/response.util';

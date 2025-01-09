@@ -1,0 +1,26 @@
+{
+  "tabla": "patio_importers",
+  "campos": {
+    "uuid": {
+      "campo": "uuid",
+      "tipo": "string",
+      "longitud": 50,
+      "requerido": true
+    },
+    "name": {
+      "campo": "name",
+      "tipo": "string",
+      "longitud": 50
+    },
+    "rfc": {
+      "campo": "rfc",
+      "tipo": "string",
+      "longitud": 50
+    },
+    "email":{
+      "campo": "email",
+      "tipo": "string",
+      "longitud": 50
+    }
+  }
+}
