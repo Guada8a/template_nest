@@ -57,6 +57,13 @@ export class UsersController {
     return ResponseUtil.success(updatedUser ? 'Usuario actualizado exitosamente' : 'Usuario no encontrado', updatedUser);
   }
 
+  @ApiCustomResponses({ summary: 'Obtener un usuario por su username', successExample: userResponses.getOne })
+  @Get('username/:username')
+  async getUserByUsername(@Param('username') username: string) {
+    const user = await this.usersService.getUserByUsername(username);
+    return ResponseUtil.success(user ? 'Usuario obtenido exitosamente' : 'Usuario no encontrado', user);
+  }
+
   @ApiCustomResponses({ summary: 'Eliminar un usuario por su ID', successExample: userResponses.delete })
   @Delete(':id')
   async removeUser(@Param('id') id: string) {

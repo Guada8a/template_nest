@@ -31,6 +31,10 @@ export class UsersService {
     return null;
   }
 
+  async getUserByUsername(username: string) {
+    return await this.userRepository.findOne({ where: { username } });
+  }
+
   async removeUser(id: number) {
     const user = await this.userRepository.findOne({ where: { id } });
     if (user) {
