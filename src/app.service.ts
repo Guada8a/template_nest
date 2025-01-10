@@ -61,4 +61,15 @@ export class AppService {
       };
     }
   }
+
+  async generateError() {
+    // Simulamos un error crítico que romperá el servicio
+    setTimeout(() => {
+      throw new Error('Error crítico simulado para probar PM2');
+    }, 100);
+
+    return {
+      message: 'Generando error crítico...'
+    };
+  }
 }

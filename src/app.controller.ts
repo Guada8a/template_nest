@@ -10,12 +10,18 @@ export class AppController {
   @Version('1')
   @Get()
   async checkDatabaseConnection() {
-    return await this.appService.checkDatabaseConnection();
+    return await this.appService.generateError();
   }
 
   @Version('2')
   @Get()
   async checkDatabaseConnectionV2() {
-    return await this.appService.checkDatabaseConnectionV2();
+    return await this.appService.generateError();
+  }
+
+  @Version('3')
+  @Get()
+  async checkDatabaseConnectionV3() {
+    return await this.appService.generateError();
   }
 }

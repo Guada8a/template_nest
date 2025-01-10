@@ -1,4 +1,3 @@
-// src/cruds/cruds.service.ts
 import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -86,13 +85,6 @@ export class CrudsService {
     }
   }
 
-  private getDataBaseFieldNames(frontSchema: FrontSchema, backSchema: BackSchema): string[] {
-    return frontSchema.schema.map(fieldData => {
-      const fieldName = fieldData.dataIndex;
-      return backSchema.campos[fieldName]?.campo || fieldName;
-    });
-  }
-
   async getSchema(crudUuid: string) {
     if (!schemas_catalog[crudUuid]) {
       throw new NotFoundException('Invalid schema UUID');
@@ -125,31 +117,25 @@ export class CrudsService {
 
   async getAllCrudRecords(crudUuid: string) {
     const backSchema = await this.getSchemaByUuid(crudUuid, 'back') as BackSchema;
-    const frontSchema = await this.getSchemaByUuid(crudUuid, 'front') as FrontSchema;
-
-    if (!backSchema || !frontSchema) {
-      throw new NotFoundException(`Entity not found: ${crudUuid}`);
+    if (!backSchema) {
+      throw new NotFoundException(`No se encontró el esquema para el UUID: ${crudUuid}`);
     }
-
-    const dbFieldNames = this.getDataBaseFieldNames(frontSchema, backSchema);
 
     const records = await this.repository
       .createQueryBuilder(backSchema.tabla)
-      .select(dbFieldNames)
       .where('status = 1')
       .getMany();
 
-    const dateFields = frontSchema.schema
-      .filter(field => field.type === 'date')
-      .map(field => backSchema.campos[field.dataIndex]?.campo || field.dataIndex);
+    if (!records || records.length === 0) {
+      return [];
+    }
 
     return records.map(record => {
       const formattedRecord = { ...record };
-      dateFields.forEach(dateField => {
-        if (formattedRecord[dateField]) {
-          if (formattedRecord[dateField] instanceof Date) {
-            formattedRecord[dateField] = formattedRecord[dateField].toISOString().split('T')[0];
-          }
+      // Formatear fechas si existen
+      Object.entries(formattedRecord).forEach(([key, value]) => {
+        if (value instanceof Date) {
+          formattedRecord[key] = value.toISOString().split('T')[0];
         }
       });
       return formattedRecord;
@@ -171,6 +157,9 @@ export class CrudsService {
 
     // Validar campos según el schema
     for (const [field, config] of Object.entries(schema.campos)) {
+      // Excluir la validación del uuid ya que se genera automáticamente
+      if (field === 'uuid') continue;
+
       if (config.requerido && !data[field]) {
         throw new BadRequestException(`Required field missing: ${field}`);
       }
